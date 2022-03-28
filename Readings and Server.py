@@ -13,17 +13,18 @@ ser = serial.Serial(
     bytesize=serial.EIGHTBITS,\
         timeout=0)
 ##############################
-socket1 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  ##### Creating a socket        
+socketServer = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  ##### Creating a socket        
 print ("Socket successfully created")    ## Indicator that the socket creation was successfull
-port = 12345                                ### Declaring a random unused port
-socket1.bind(('', port))                          ### Binding the socket to the port and making it open to all devices in the network
+port = 5050                                ### Declaring a random unused port
+socketServer.bind(('', port))                          ### Binding the socket to the port and making it open to all devices in the network
 print ("socket binded to %s" %(port))       ### Indicator that the socket is binded
-socket1.listen(5)                                 ### Configuring the socket to listen if anyone connects
+socketServer.listen(5)                                 ### Configuring the socket to listen if anyone connects
 print ("socket is listening")               ### Indicator that the socket is listening
-
+ourIP = socket.gethostbyname(socket.gethostname())
+print("The host IP is : "+ourIP)
 #################################
 print("Connected to: " + ser.portstr) #   <--- Making sure we're connected to COM2
-client1, addr = socket1.accept()                                                 ### At this point, a client is trying to connect to the server. 
+client1, addr = socketServer.accept()                                                 ### At this point, a client is trying to connect to the server. 
                                                                      ### This line accepts that connection and takes the hostname and address
 print ('Got connection from', addr )                                 ### Indicator that the connection has been made from "Address"
 if addr:                                                             ### If there's a connection:
@@ -57,11 +58,6 @@ if addr:                                                             ### If ther
                                 final_list.append(joined)        #### append the joined list into the final list that contains all values
                                 indiv_reading=[]                 #### reset first list to re-use again.
 
-                    final_list[0] = final_list[0]+"."        #### Add a dot to the first integer, because readings(2)and(3) were being sent together
-
+                    final_list_string="".join(final_list)
                     if len(final_list)==3:                  ### Some readings had errors, so this line ensures that the readings we're getting are the correct readings.
-                        client1.send(final_list[0].encode())      ### Send first reading through socket programming
-                        client1.send(final_list[1].encode())      ### Send second reading through socket programming
-                        client1.send(final_list[2].encode())      ### Send third reading through socket programming
-
-
+                        client1.send(final_list_string.encode())
