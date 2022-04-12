@@ -1,4 +1,9 @@
 import socket
+
+#####################################################################################################
+# Function name: clientConnect()
+# Function description: This function defines a client socket, then connects to the main server
+#####################################################################################################
 def clientConnect():
     # Create a socket object
     global socketClient
@@ -8,6 +13,19 @@ def clientConnect():
     # connect to the server on local computer
     socketClient.connect(('192.168.130.203', port))
     print("Connected to host PC")
+
+#####################################################################################################
+# Function name: takeReadings()
+# Function description: This function will be in the main while loop. It takes readings from the 
+# server and filters the errors, then produces the final result in a list of integers.
+#
+# Input : Readings from PC server.
+#
+# Output: List of integers containing Roll, Pitch and Yaw
+#
+# Passed to: calculatePistonLength()
+#####################################################################################################
+
 def takeReadings():
     #Defining the variables            
     recieved = socketClient.recv(32768).decode()     ##### Put the recieved readings into variable
@@ -19,12 +37,4 @@ def takeReadings():
         final_list = [rollrecieved,pitchrecieved,yawrecieved]                                               ## Put the values into the final list
         final_list = [int(x) for x in final_list]                                                           ## Convert list of strings into list of integers
         # print(final_list)
-        return final_list
-
-### Input : Take readings from server
-
-clientConnect()
-while True:
-    readings = takeReadings()    ### This list contains the roll and pitch and yaw.
-    print(readings)
-### Output: Pitch, Yaw and Roll in a list of integers.
+        return final_list  ## Order of list: Roll, Pitch, Yaw
