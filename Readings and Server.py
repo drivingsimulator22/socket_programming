@@ -1,6 +1,11 @@
 import serial
 import socket
 
+#####################################################################################################
+# Function name: serialDefine()
+# Function description: This function defines the serial port which communicates with the SIMTOOLS 
+#####################################################################################################
+
 def serialDefine():
     global ser
     ser = serial.Serial(
@@ -9,8 +14,14 @@ def serialDefine():
         parity=serial.PARITY_NONE,\
         stopbits=serial.STOPBITS_ONE,\
         bytesize=serial.EIGHTBITS,\
-            timeout=0)
+        timeout=0)
     return ser
+
+#####################################################################################################
+# Function name: socketDefine()
+# Function description: This function defines the socket server, which listens to incoming
+# connection. It then accepts the connection and returns the address to be used in main server loop
+#####################################################################################################
 
 def socketDefine():
     global addr
