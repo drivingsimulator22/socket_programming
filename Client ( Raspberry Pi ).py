@@ -11,7 +11,7 @@ def clientConnect():
     # Define the port on which you want to connect
     port = 5050   
     # connect to the server on local computer
-    socketClient.connect(('192.168.130.203', port))
+    socketClient.connect(('192.168.130.20', port))
     print("Connected to host PC")
 
 #####################################################################################################
@@ -34,7 +34,9 @@ def takeReadings():
         rollrecieved = recieved.split(",")[0].replace("R","")                                               ## Split the recieved string and remove R,P,Y.. Roll
         pitchrecieved = recieved.split(",")[1].replace("P","")                                              ## Pitch
         yawrecieved = recieved.split(",")[2].replace("Y","")                                                ## Yaw
-        final_list = [rollrecieved,pitchrecieved,yawrecieved]                                               ## Put the values into the final list
-        final_list = [int(x) for x in final_list]                                                           ## Convert list of strings into list of integers
-        # print(final_list)
-        return final_list  ## Order of list: Roll, Pitch, Yaw
+        if rollrecieved and pitchrecieved and yawrecieved:
+            final_list = [rollrecieved,pitchrecieved,yawrecieved]                                               ## Put the values into the final list
+            final_list = [int(x) for x in final_list]                                                           ## Convert list of strings into list of integers
+            # print(final_list)
+            
+            return final_list  ## Order of list: Roll, Pitch, Yaw
